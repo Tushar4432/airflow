@@ -103,6 +103,12 @@ class TaskGroup(DAGNode):
         automatically add `__1` etc suffixes
     """
 
+    display_name: str | None = attrs.field(
+        default=None, 
+        validator=attrs.validators.optional(attrs.validators.instance_of(str))
+    )
+
+
     _group_id: str | None = attrs.field(
         validator=attrs.validators.optional(attrs.validators.instance_of(str))
     )
@@ -270,7 +276,7 @@ class TaskGroup(DAGNode):
     @property
     def label(self) -> str | None:
         """group_id excluding parent's group_id used as the node label in UI."""
-        return self._group_id
+        return self.display_name if self.display_name else self._group_id
 
     def update_relative(
         self,

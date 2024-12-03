@@ -2333,6 +2333,7 @@ class Airflow(AirflowBaseView):
         origin = get_safe_url(request.form.get("origin"))
         dag = get_airflow_app().dag_bag.get_dag(dag_id)
         group_id = request.form.get("group_id")
+        display_name = request.form.get("display_name")
 
         if "map_index" not in request.form:
             map_indexes: list[int] | None = None
@@ -2631,6 +2632,7 @@ class Airflow(AirflowBaseView):
         dag_id: str,
         run_id: str,
         group_id: str,
+        display_name: str,
         origin: str,
         upstream: bool,
         downstream: bool,
@@ -2646,6 +2648,7 @@ class Airflow(AirflowBaseView):
 
         altered = dag.set_task_group_state(
             group_id=group_id,
+            display_name=display_name,
             run_id=run_id,
             state=state,
             upstream=upstream,
@@ -2669,6 +2672,7 @@ class Airflow(AirflowBaseView):
         state = args.get("state")
         origin = get_safe_url(args.get("origin"))
         group_id = args.get("group_id")
+        display_name = args.get("display_name")
 
         if "map_index" not in args:
             map_indexes: list[int] | None = None
@@ -2797,6 +2801,7 @@ class Airflow(AirflowBaseView):
                 dag_id=dag_id,
                 run_id=run_id,
                 group_id=group_id,
+                display_name=display_name,
                 origin=origin,
                 upstream=upstream,
                 downstream=downstream,
